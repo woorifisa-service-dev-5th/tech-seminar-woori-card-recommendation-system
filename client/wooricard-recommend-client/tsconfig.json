@@ -19,7 +19,7 @@
             }
         ],
         "paths": {
-            "@/*": ["./src/app/*"]
+            "@/*": ["./src/app/*"] // "src/app/*" 대신 "src/*"로 변경
         }
     },
     "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

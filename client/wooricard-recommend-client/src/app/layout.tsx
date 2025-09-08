@@ -1,6 +1,29 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import localFont from 'next/font/local'; // next/font/local을 임포트합니다.
 import './globals.css';
+
+// 로컬 폰트 설정
+const wooridaum = localFont({
+    src: [
+        {
+            path: './assets/fonts/WooridaumL.ttf',
+            weight: '300', // Light
+            style: 'normal',
+        },
+        {
+            path: './assets/fonts/WooridaumR.ttf',
+            weight: '400', // Regular
+            style: 'normal',
+        },
+        {
+            path: './assets/fonts/WooridaumB.ttf',
+            weight: '700', // Bold
+            style: 'normal',
+        },
+    ],
+    display: 'swap', // 폰트 로딩 전략
+    variable: '--font-wooridaum', // CSS 변수 이름 설정
+});
 
 export const metadata: Metadata = {
     title: 'Create Next App',
@@ -13,7 +36,8 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang='en'>
+        // <html> 태그에 폰트 변수를 적용합니다.
+        <html lang='en' className={`${wooridaum.variable}`}>
             <body>{children}</body>
         </html>
     );
