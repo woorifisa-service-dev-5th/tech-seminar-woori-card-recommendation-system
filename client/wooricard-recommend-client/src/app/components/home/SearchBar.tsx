@@ -67,16 +67,12 @@ export default function SearchBar() {
                             onChange={(e) => setQuery(e.target.value)}
                             onFocus={() => setIsFocused(true)}
                             onBlur={() => setIsFocused(false)}
+                            placeholder=''
                             className={`
                               w-full bg-transparent text-white 
                               focus:outline-none text-lg py-3 px-4 font-medium
                               transition-all duration-300
-                              ${
-                                  query
-                                      ? 'placeholder-transparent'
-                                      : 'placeholder-transparent'
-                              }
-                          `}
+                            `}
                         />
 
                         {!query && !isFocused && (
@@ -90,7 +86,7 @@ export default function SearchBar() {
                         {!query && isFocused && (
                             <div className='absolute inset-0 flex items-center px-4 pointer-events-none'>
                                 <div className='text-lg font-medium text-slate-300 truncate'>
-                                    {placeholderText}
+                                    {'어떤 카드를 추천해드릴까요?'}
                                 </div>
                             </div>
                         )}
@@ -131,24 +127,10 @@ export default function SearchBar() {
                     </div>
                 </div>
 
-                {/* Animated border gradient */}
-                <div
-                    className={`
-                    absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-500
-                    bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500
-                    ${isFocused ? 'opacity-100' : 'group-hover:opacity-50'}
-                `}
-                    style={{ padding: '1px' }}
-                >
-                    <div className='w-full h-full bg-slate-900 rounded-2xl' />
-                </div>
-
-                {/* Hidden submit button */}
                 <button type='submit' className='hidden' aria-hidden='true' />
             </form>
 
-            {/* Floating suggestions (optional enhancement) */}
-            {isFocused && query.length > 0 && (
+            {isFocused && (
                 <div className='absolute top-full left-0 right-0 mt-2 bg-slate-800/95 backdrop-blur-xl border border-slate-700/50 rounded-xl shadow-2xl overflow-hidden z-50'>
                     <div className='p-2 space-y-1'>
                         <div className='px-3 py-2 text-xs font-medium text-slate-400 uppercase tracking-wider'>
@@ -156,13 +138,16 @@ export default function SearchBar() {
                         </div>
                         {[
                             '20대 여성 영화 할인 카드',
-                            '주말 엔터테인먼트 혜택',
-                            '영화관 할인 신용카드',
+                            '주말 백화점 쇼핑 혜택',
+                            '편의점 할인 신용카드',
                         ].map((suggestion, index) => (
                             <button
                                 key={index}
                                 className='w-full text-left px-3 py-2 text-slate-300 hover:bg-slate-700/50 rounded-lg transition-colors duration-200'
-                                onClick={() => setQuery(suggestion)}
+                                onMouseDown={(e) => {
+                                    e.preventDefault();
+                                    setQuery(suggestion);
+                                }}
                             >
                                 {suggestion}
                             </button>

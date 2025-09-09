@@ -1,6 +1,6 @@
 import PrismBackground from '@/components/bits/Prism/PrismBackground';
 import SearchBar from '@/components/home/SearchBar';
-import TextType from '@/components/TextType/TextType';
+import TextType from '@/components/bits/TextType/TextType';
 
 export default function Home() {
     return (
@@ -8,11 +8,10 @@ export default function Home() {
             <PrismBackground />
 
             <div className='absolute inset-0 flex flex-col items-center justify-center p-4'>
-                {/* 2. ShinyText를 TextType 컴포넌트로 교체하고 원하는 텍스트 배열과 옵션을 전달합니다. */}
                 <TextType
                     as='h1'
                     text={[
-                        '우리카드 AI 추천 챗봇',
+                        '우리카드 AI 추천',
                         '원하는 카드를 추천받아보세요',
                         '원하는 혜택을 입력해보세요',
                     ]}
