@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>AI 카드 추천 스트리밍 테스트</title>
+        <style>
+            body {
+                font-family: sans-serif;
+                margin: 2em;
+            }
+            #query {
+                width: 300px;
+                padding: 8px;
+            }
+            #response {
+                border: 1px solid #ccc;
+                padding: 1em;
+                margin-top: 1em;
+                white-space: pre-wrap;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>AI 카드 추천 스트리밍 테스트</h1>
+        <input type="text" id="query" placeholder="질문을 입력하세요..." />
+        <button onclick="startStream()">질문하기</button>
+
+        <h3>LLM 실시간 답변:</h3>
+        <div id="response"></div>
+
+        <script>
+            let eventSource;
+
+            function startStream() {
+                const queryInput = document.getElementById('query');
+                const responseDiv = document.getElementById('response');
+
+                // 이전 스트림이 있다면 종료
+                if (eventSource) {
+                    eventSource.close();
+                }
+
+                responseDiv.innerHTML = ''; // 답변 창 초기화
+                const query = encodeURIComponent(queryInput.value);
+
+                // EventSource를 사용하여 서버에 SSE 연결
+                eventSource = new EventSource(`/chat?query=${query}`);
+
+                // 'message' 이벤트가 발생할 때마다 (서버가 데이터를 보낼 때마다) 호출
+                eventSource.onmessage = function (event) {
+                    // event.data에 서버가 보낸 텍스트가 담겨 있음
+                    responseDiv.innerHTML += event.data;
+                };
+
+                // 스트림이 종료되거나 에러 발생 시 호출
+                eventSource.onerror = function (err) {
+                    console.error('EventSource failed:', err);
+                    eventSource.close();
+                };
+            }
+        </script>
+    </body>
+</html>
