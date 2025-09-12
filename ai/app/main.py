@@ -35,4 +35,3 @@ async def stream_chat(request: ChatRequest):
 @app.get("/")
 def read_root():
     return {"message": "RAG 카드 추천 서버가 실행 중입니다. /chat 엔드포인트로 POST 요청을 보내주세요."}
-

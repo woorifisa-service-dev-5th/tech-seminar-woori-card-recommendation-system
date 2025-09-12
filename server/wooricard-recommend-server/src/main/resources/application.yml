@@ -1,0 +1,15 @@
+server:
+  port: 8080
+
+# Python AI ?? ??
+ai:
+  server:
+    url: http://127.0.0.1:8000
+
+# Spring Data R2DBC (MySQL) ??
+spring:
+  r2dbc:
+    url: r2dbc:mysql://localhost:3306/woori_card # DB ?? ? ?????? ??
+    username: root # DB ??? ??
+    password: 1234 # DB ????
+

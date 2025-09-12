@@ -58,6 +58,7 @@ temp/
 *.db
 *.sqlite
 *.sqlite3
+data/
 
 # 모델 파일
 *.pkl
