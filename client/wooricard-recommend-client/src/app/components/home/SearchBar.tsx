@@ -150,8 +150,8 @@ export default function SearchBar() {
                         </div>
                         {[
                             '올리브영에서 화장품을 자주 사는데, 혜택이 좋은 카드 추천해줘',
-                            '스타벅스같은 카페 할인 신용카드 추천해줘',
                             '편의점 할인 신용카드 추천해줘',
+                            '버스나 지하철같은 교통비 할인 카드 추천해줘',
                         ].map((suggestion, index) => (
                             <button
                                 key={index}

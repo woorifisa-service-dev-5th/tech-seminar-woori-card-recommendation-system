@@ -6,7 +6,7 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 @Data
-@Table("card") // DB의 'card' 테이블과 매핑
+@Table("card")
 public class Card {
 
     @Id

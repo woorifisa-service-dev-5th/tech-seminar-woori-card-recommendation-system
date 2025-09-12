@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 query: body.query,
-                model: 'gemini-2.5-flash', // 사용할 모델을 명시합니다.
+                model: 'gemini-2.5-flash', // 사용할 모델을 명시합니다.(예: gemini-2.5-flash, llama-3.1-8b-instant)
             }),
         });
 
@@ -26,7 +26,6 @@ export async function POST(req: NextRequest) {
             });
         }
 
-        // ✨ [핵심 수정] 스트림을 수동으로 읽고 쓰는 방식으로 변경
         const reader = springResponse.body.getReader();
         const stream = new ReadableStream({
             async start(controller) {

@@ -8,7 +8,11 @@ export function parseCardNames(text: string): string[] | null {
     const match = text.match(/CARD_NAME::(\[.*?\])/);
     if (match && match[1]) {
         try {
-            const cardNames = JSON.parse(match[1]);
+            // 💡 AI가 생성한 배열 문자열의 단일 인용부호(')를 이중 인용부호(")로 변경합니다.
+            const validJsonString = match[1].replace(/'/g, '"'); // <--- 수정된 부분
+
+            const cardNames = JSON.parse(validJsonString); // <--- 수정된 부분
+
             if (
                 Array.isArray(cardNames) &&
                 cardNames.every((item) => typeof item === 'string')
@@ -29,5 +33,6 @@ export function parseCardNames(text: string): string[] | null {
  * @returns 카드 이름 식별자가 제거된 문자열
  */
 export function cleanUpResponseText(text: string): string {
+    // 이 함수는 파싱을 하지 않으므로 수정할 필요가 없습니다.
     return text.replace(/CARD_NAME::(\[.*?\])/, '').trim();
 }

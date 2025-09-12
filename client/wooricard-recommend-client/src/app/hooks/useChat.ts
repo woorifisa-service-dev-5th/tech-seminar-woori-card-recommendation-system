@@ -87,11 +87,11 @@ export function useChat() {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         query: input,
-                        model: 'gemini-1.5-flash',
+                        model: 'gemini-2.5-flash',
                     }),
                     signal: newAbortController.signal,
                 });
-
+                console.log(response);
                 if (!response.body) throw new Error('Response body is null');
 
                 const reader = response.body.getReader();

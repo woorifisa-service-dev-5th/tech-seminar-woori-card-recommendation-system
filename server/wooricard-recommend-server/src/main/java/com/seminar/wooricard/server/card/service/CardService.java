@@ -16,17 +16,16 @@ public class CardService {
 
     public Flux<CardDetailResponse> getCardDetailsByNames(List<String> cardNames) {
         return cardRepository.findByCardNameIn(cardNames)
-                .map(this::toDto); // 조회된 각 Card 엔티티를 DTO로 변환
+                .map(this::toDto);
     }
 
-    // Card 엔티티를 CardDetailResponse DTO로 변환하는 헬퍼 메서드
     private CardDetailResponse toDto(Card card) {
         return new CardDetailResponse(
                 card.getId(),
                 card.getCardName(),
                 card.getBenefits(),
-                "/images/" + card.getId() + ".png", // ID를 기반으로 이미지 URL 생성
-                card.getCardUrl() // 엔티티에서 URL 정보를 가져와 DTO에 설정
+                "/images/" + card.getId() + ".png",
+                card.getCardUrl()
         );
     }
 }
