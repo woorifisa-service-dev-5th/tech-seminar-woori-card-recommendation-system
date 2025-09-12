@@ -9,7 +9,7 @@ ai:
 # Spring Data R2DBC (MySQL) ??
 spring:
   r2dbc:
-    url: r2dbc:mysql://localhost:3306/woori_card # DB ?? ? ?????? ??
-    username: root # DB ??? ??
-    password: 1234 # DB ????
+    url: r2dbc:mysql://localhost:3306/woori_card
+    username: root
+    password: 1234
 
