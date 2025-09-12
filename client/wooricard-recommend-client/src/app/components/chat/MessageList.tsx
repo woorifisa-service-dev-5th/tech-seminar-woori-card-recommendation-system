@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import type { Message as MessageType } from '@/types/chat';
+import type { Message as MessageType } from '@/types/type';
 import Message from './Message';
 import TypingIndicator from './TypingIndicator';
 
@@ -29,6 +29,7 @@ export default function MessageList({ messages, isLoading }: MessageListProps) {
                         <Message message={msg} />
                     </div>
                 ))}
+                {/* ✨ [추가] isLoading 상태일 때 TypingIndicator를 렌더링합니다. */}
                 {isLoading && <TypingIndicator />}
                 <div ref={messagesEndRef} />
             </div>

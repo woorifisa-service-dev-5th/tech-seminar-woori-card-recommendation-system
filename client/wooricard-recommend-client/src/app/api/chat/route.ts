@@ -1,79 +1,66 @@
-import { NextResponse } from 'next/server';
-import type { Message, CardData } from '@/types/chat';
+import { NextRequest } from 'next/server';
 
-// 카드 데이터와 이미지 경로를 실제 카드에 맞게 수정합니다.
-const mockCardData: CardData[] = [
-    {
-        name: '카드의정석 EVERY DISCOUNT',
-        image: '/images/card_1.jpg', // 초록색 EVERY DISCOUNT 카드
-        benefits: [
-            '국내 온라인 간편결제 최대 2.8% 할인',
-            '전월실적 해당없음(온라인 간편결제 2% 할인: 40만원 이상)',
-        ],
-    },
-    {
-        name: '카드의정석 EVERY POINT',
-        image: '/images/card_1.jpg', // 이미지가 없어 유사한 카드로 대체
-        benefits: [
-            '국내 온라인 간편결제 최대 2.8% 적립',
-            '전월실적 해당없음(온라인 간편결제 2% 적립: 40만원 이상)',
-        ],
-    },
-    {
-        name: '카드의정석 TEN',
-        image: '/images/card_3.png', // 갈색 DA 카드
-        benefits: [
-            '5대 일상영역 10%할인·음식점/주점 1%할인',
-            '전월실적 40만원 이상',
-        ],
-    },
-    {
-        name: '카드의정석 I&U+',
-        image: '/images/card_2.png', // 보라색 I&U 카드
-        benefits: [
-            '대중교통 10% 할인, 커피 10% 할인, 주유할인',
-            '전월실적 30만원 이상',
-        ],
-    },
-    {
-        name: '카드의정석 SHOPPING+',
-        image: '/images/card_1.jpg', // 이미지가 없어 유사한 카드로 대체
-        benefits: [
-            '온·오프라인 쇼핑 10% 할인, 온라인 간편결제 5% 추가할인',
-            '전월실적 30만원 이상',
-        ],
-    },
-    {
-        name: '우리카드 7CORE',
-        image: '/images/card_3.png', // 이미지가 없어 유사한 카드로 대체
-        benefits: [
-            '라이프스타일 7대 영역, 10% 할인을 쏘다!',
-            '전월실적: 50만원 이상',
-        ],
-    },
-    {
-        name: '카드의정석2',
-        image: '/images/card_3.png', // 이미지가 없어 유사한 카드로 대체
-        benefits: [
-            '믿고 쓰는 카드의 정석, 시즌2는 1.2% 할인이 기본!',
-            '전월실적: 50만원 이상',
-        ],
-    },
-];
+// Spring Webflux 서버의 주소
+const SPRING_SERVER_URL = 'http://localhost:8080/api/chat/stream';
 
-export async function POST(req: Request) {
-    const numberOfCards = Math.floor(Math.random() * 3) + 1; // 1-3 cards
-    const shuffledCards = [...mockCardData].sort(() => Math.random() - 0.5);
-    const selectedCards = shuffledCards.slice(0, numberOfCards);
+export async function POST(req: NextRequest) {
+    try {
+        const body = await req.json();
+        console.log('Next API (/api/chat) received query:', body.query);
 
-    const aiResponse: Message = {
-        id: crypto.randomUUID(),
-        role: 'assistant',
-        text: `고객님의 요청에 맞는 ${numberOfCards}개의 우리카드 상품을 추천해 드립니다. 이 카드들은 특히 영화 관람 혜택이 뛰어나며, 고객님의 라이프스타일에 최적화되어 있습니다. 자세한 내용은 아래 카드 정보를 확인해 주세요!`,
-        cards: selectedCards,
-    };
+        // Spring 서버에 model 필드를 포함하여 요청을 보냅니다.
+        const springResponse = await fetch(SPRING_SERVER_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                query: body.query,
+                model: 'gemini-2.5-flash', // 사용할 모델을 명시합니다.
+            }),
+        });
 
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+        if (!springResponse.ok || !springResponse.body) {
+            const errorText = await springResponse.text();
+            console.error('Error from Spring server:', errorText);
+            return new Response(`Error from Spring server: ${errorText}`, {
+                status: springResponse.status,
+            });
+        }
 
-    return NextResponse.json(aiResponse);
+        // ✨ [핵심 수정] 스트림을 수동으로 읽고 쓰는 방식으로 변경
+        const reader = springResponse.body.getReader();
+        const stream = new ReadableStream({
+            async start(controller) {
+                try {
+                    while (true) {
+                        const { done, value } = await reader.read();
+                        if (done) {
+                            break; // 스트림이 끝나면 루프 종료
+                        }
+                        controller.enqueue(value); // 받은 데이터 조각을 클라이언트로 즉시 전달
+                    }
+                } catch (error) {
+                    console.error(
+                        'Error while reading stream from Spring:',
+                        error
+                    );
+                    controller.error(error);
+                } finally {
+                    controller.close(); // 스트림 컨트롤러 종료
+                    reader.releaseLock(); // 리더 잠금 해제
+                    console.log('Next API stream to client finished.');
+                }
+            },
+        });
+
+        return new Response(stream, {
+            headers: {
+                'Content-Type': 'text/event-stream; charset=utf-8',
+                'Cache-Control': 'no-cache',
+                Connection: 'keep-alive',
+            },
+        });
+    } catch (error) {
+        console.error('Error in Next.js API route (/api/chat):', error);
+        return new Response('Internal Server Error', { status: 500 });
+    }
 }

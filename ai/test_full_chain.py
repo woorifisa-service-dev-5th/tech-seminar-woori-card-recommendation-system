@@ -1,7 +1,7 @@
 # test_full_chain.py
 
 # rag_chain 파일에서 rag_chain 객체를 직접 가져옵니다.
-from app.rag_chain import rag_chain
+from app.regacy_rag_chain import rag_chain
 
 def test_chain_streaming():
     """

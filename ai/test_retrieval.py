@@ -1,7 +1,7 @@
 # test_retriever.py
 
 # rag_chain 파일에서 retriever 객체를 직접 가져옵니다.
-from app.rag_chain import retriever
+from app.regacy_rag_chain import retriever
 
 def test_retrieval():
     """

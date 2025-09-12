@@ -137,9 +137,9 @@ export default function SearchBar() {
                             추천 검색어
                         </div>
                         {[
-                            '20대 여성 영화 할인 카드',
-                            '주말 백화점 쇼핑 혜택',
-                            '편의점 할인 신용카드',
+                            '20대 여성 영화 할인 카드 추천',
+                            '주말 백화점 쇼핑 혜택 카드 추천',
+                            '편의점 할인 신용카드 추천해줘',
                         ].map((suggestion, index) => (
                             <button
                                 key={index}
