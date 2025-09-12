@@ -1,0 +1,6 @@
+# src/main/resources/application-local.yml
+
+spring:
+  r2dbc:
+    username: root
+    password: 1234
