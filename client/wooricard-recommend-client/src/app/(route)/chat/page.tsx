@@ -9,12 +9,10 @@ const logoSrc = '/images/wooricard_logo.png';
 export default function ChatPage() {
     return (
         <div className='relative flex h-screen w-full flex-col bg-black'>
-            {/* 배경 효과 */}
             <div className='absolute inset-0 overflow-hidden'>
                 <AuroraBackground />
             </div>
 
-            {/* 헤더 */}
             <header className='relative z-10 flex h-16 shrink-0 items-center justify-between border-b border-blue-300/20 bg-black/50 backdrop-blur-lg px-4 md:px-6'>
                 <Link href='/' className='flex items-center gap-3'>
                     <div className='p-1 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center'>
@@ -32,7 +30,6 @@ export default function ChatPage() {
                 </Link>
             </header>
 
-            {/* 채팅창 컴포넌트 */}
             <ChatWindow />
         </div>
     );

@@ -19,20 +19,18 @@ export default function Card({ card, index }: CardProps) {
             className='flex flex-col overflow-hidden rounded-xl border border-blue-300/30 bg-blue-700/40 hover:bg-blue-700/60 transition-all duration-300 group/card animate-in slide-in-from-bottom-2'
             style={{ animationDelay: `${index * 150}ms` }}
         >
-            {/* ✨ [수정] 이미지 컨테이너의 높이를 h-40에서 h-56으로 늘려 세로가 긴 이미지에 맞춥니다. */}
             <div className='relative overflow-hidden flex-shrink-0 h-56'>
                 <Image
                     src={card.imageUrl || '/placeholder.svg'}
                     alt={card.cardName}
                     fill
                     style={{
-                        objectFit: 'cover',
-                        objectPosition: 'top',
+                        objectFit: 'contain', // ✨ [수정] 'cover'에서 'contain'으로 변경하여 이미지가 잘리지 않도록 합니다.
                     }}
-                    className='group-hover/card:scale-105 transition-transform duration-500'
+                    className='group-hover/card:scale-105 transition-transform duration-500 p-2' // 패딩 추가로 이미지 주변 여백 확보
                     sizes='(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw'
                 />
-                <div className='absolute inset-0 bg-gradient-to-t from-blue-900/60 to-transparent'></div>
+                <div className='absolute inset-0 bg-gradient-to-t from-blue-900/60 to-transparent opacity-50'></div>
             </div>
             <div className='p-3 flex-1 flex flex-col'>
                 <div className='flex items-center gap-2 mb-2'>

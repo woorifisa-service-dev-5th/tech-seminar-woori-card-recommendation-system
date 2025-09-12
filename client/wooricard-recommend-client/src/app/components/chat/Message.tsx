@@ -7,6 +7,16 @@ export default function Message({ message }: { message: MessageType }) {
     const isUser = message.role === 'user';
     const cards = message.cards || [];
 
+    // ✨ [수정] 어시스턴트 메시지에 아직 텍스트 내용이 없으면 빈 버블을 렌더링하지 않습니다.
+    if (
+        !isUser &&
+        !message.text &&
+        !message.isLoadingCards &&
+        cards.length === 0
+    ) {
+        return null;
+    }
+
     return (
         <div
             className={`flex items-start gap-4 ${
