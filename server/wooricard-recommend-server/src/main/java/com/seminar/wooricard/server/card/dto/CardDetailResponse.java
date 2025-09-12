@@ -8,8 +8,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CardDetailResponse {
-    private Long id; // ID 필드 추가
+    private Long id;
     private String cardName;
     private String benefits;
-    private String imageUrl; // 완성된 전체 이미지 URL
+    private String imageUrl;
+    private String cardUrl;
 }

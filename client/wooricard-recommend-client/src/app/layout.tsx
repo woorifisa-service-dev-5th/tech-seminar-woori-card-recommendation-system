@@ -1,28 +1,27 @@
 import type { Metadata } from 'next';
-import localFont from 'next/font/local'; // next/font/local을 임포트합니다.
+import localFont from 'next/font/local';
 import './globals.css';
 
-// 로컬 폰트 설정
 const wooridaum = localFont({
     src: [
         {
             path: './assets/fonts/WooridaumL.ttf',
-            weight: '300', // Light
+            weight: '300',
             style: 'normal',
         },
         {
             path: './assets/fonts/WooridaumR.ttf',
-            weight: '400', // Regular
+            weight: '400',
             style: 'normal',
         },
         {
             path: './assets/fonts/WooridaumB.ttf',
-            weight: '700', // Bold
+            weight: '700',
             style: 'normal',
         },
     ],
-    display: 'swap', // 폰트 로딩 전략
-    variable: '--font-wooridaum', // CSS 변수 이름 설정
+    display: 'swap',
+    variable: '--font-wooridaum',
 });
 
 export const metadata: Metadata = {
@@ -36,7 +35,6 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        // <html> 태그에 폰트 변수를 적용합니다.
         <html lang='en' className={`${wooridaum.variable}`}>
             <body>{children}</body>
         </html>

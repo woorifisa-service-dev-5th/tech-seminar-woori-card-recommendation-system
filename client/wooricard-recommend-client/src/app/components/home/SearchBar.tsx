@@ -13,11 +13,15 @@ export default function SearchBar() {
     const placeholderText =
         '어떤 카드를 추천해 드릴까요? 예: 20대 여자가 주말에 영화를 자주보는데, 혜택이 좋은 카드를 추천해줘';
 
-    const handleSearch = (e: React.FormEvent) => {
-        e.preventDefault();
+    const triggerSearch = () => {
         if (query.trim()) {
             router.push(`/chat?q=${encodeURIComponent(query)}`);
         }
+    };
+
+    const handleFormSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        triggerSearch();
     };
 
     return (
@@ -26,7 +30,7 @@ export default function SearchBar() {
             <div className='absolute inset-0 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500' />
 
             <form
-                onSubmit={handleSearch}
+                onSubmit={handleFormSubmit}
                 className={`
                     group relative flex items-center w-full 
                     bg-gradient-to-r from-slate-900/90 via-slate-800/90 to-slate-900/90
@@ -43,8 +47,12 @@ export default function SearchBar() {
             >
                 {/* Inner container with glassmorphism */}
                 <div className='flex items-center w-full bg-slate-800/30 rounded-xl p-3'>
-                    {/* Search icon with animation */}
-                    <div className='relative'>
+                    <button
+                        type='button'
+                        onClick={triggerSearch}
+                        className='relative p-2'
+                        aria-label='검색'
+                    >
                         <LuSearch
                             className={`
                             text-xl transition-all duration-300
@@ -56,9 +64,9 @@ export default function SearchBar() {
                         `}
                         />
                         {isFocused && (
-                            <div className='absolute inset-0 bg-blue-400/20 rounded-full animate-ping' />
+                            <div className='absolute inset-0 -m-2 bg-blue-400/20 rounded-full animate-ping' />
                         )}
-                    </div>
+                    </button>
 
                     <div className='relative flex-grow'>
                         <input
@@ -94,12 +102,16 @@ export default function SearchBar() {
 
                     {/* AI sparkles indicator */}
                     <div className='flex items-center space-x-3'>
-                        <div className='hidden sm:flex items-center space-x-2 px-3 py-1.5 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-lg border border-blue-500/20'>
+                        <button
+                            type='button'
+                            onClick={triggerSearch}
+                            className='hidden sm:flex items-center space-x-2 px-3 py-1.5 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-lg border border-blue-500/20 transition-colors hover:border-blue-500/40'
+                        >
                             <LuSparkles className='text-blue-400 text-sm animate-pulse' />
                             <span className='text-xs font-medium text-blue-300'>
                                 AI 추천
                             </span>
-                        </div>
+                        </button>
 
                         {/* Voice search button */}
                         <button
@@ -137,8 +149,8 @@ export default function SearchBar() {
                             추천 검색어
                         </div>
                         {[
-                            '20대 여성 영화 할인 카드 추천',
-                            '주말 백화점 쇼핑 혜택 카드 추천',
+                            '올리브영에서 화장품을 자주 사는데, 혜택이 좋은 카드 추천해줘',
+                            '스타벅스같은 카페 할인 신용카드 추천해줘',
                             '편의점 할인 신용카드 추천해줘',
                         ].map((suggestion, index) => (
                             <button
@@ -146,7 +158,11 @@ export default function SearchBar() {
                                 className='w-full text-left px-3 py-2 text-slate-300 hover:bg-slate-700/50 rounded-lg transition-colors duration-200'
                                 onMouseDown={(e) => {
                                     e.preventDefault();
-                                    setQuery(suggestion);
+                                    router.push(
+                                        `/chat?q=${encodeURIComponent(
+                                            suggestion
+                                        )}`
+                                    );
                                 }}
                             >
                                 {suggestion}

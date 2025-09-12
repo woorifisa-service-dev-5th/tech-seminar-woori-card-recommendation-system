@@ -12,8 +12,11 @@ public class Card {
     @Id
     private Long id;
 
-    @Column("card_name") // DB의 컬럼명과 필드명이 다를 경우 명시
+    @Column("card_name")
     private String cardName;
 
     private String benefits;
+
+    @Column("card_url")
+    private String cardUrl;
 }

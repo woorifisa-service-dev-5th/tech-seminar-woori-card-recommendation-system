@@ -7,7 +7,7 @@ export default function CheckIcon() {
             viewBox='0 0 24'
             fill='none'
             stroke='currentColor'
-            strokeWidth='3'
+            strokeWidth='2'
             className='mr-2 h-4 w-4 flex-shrink-0 text-emerald-400'
         >
             <polyline points='20 6 9 17 4 12' />

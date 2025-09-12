@@ -6,6 +6,7 @@ export interface CardData {
     cardName: string;
     benefits: string; // 혜택을 쉼표로 구분된 단일 문자열로 받습니다.
     imageUrl: string;
+    cardUrl: string;
 }
 
 /**

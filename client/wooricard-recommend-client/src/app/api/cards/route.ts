@@ -34,7 +34,6 @@ export async function GET(req: NextRequest) {
 
         const cardData: CardData[] = await springResponse.json();
 
-        // ✨ [핵심 수정] 수신된 데이터의 imageUrl을 전체 URL로 변환합니다.
         const cardDataWithFullUrl = cardData.map((card) => ({
             ...card,
             imageUrl: card.imageUrl

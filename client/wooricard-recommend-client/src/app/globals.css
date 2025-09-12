@@ -127,7 +127,13 @@
         @apply border-border outline-ring/50;
     }
     body {
-        @apply bg-background text-foreground;
+        /* 변경: 기본적으로 텍스트 선택을 비활성화합니다. */
+        @apply bg-background text-foreground select-none;
+    }
+    /* 추가: input과 textarea에서는 텍스트 선택이 가능하도록 되돌립니다. */
+    input,
+    textarea {
+        @apply select-text;
     }
 }
 

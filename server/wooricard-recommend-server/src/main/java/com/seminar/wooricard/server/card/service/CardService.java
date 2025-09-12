@@ -25,7 +25,8 @@ public class CardService {
                 card.getId(),
                 card.getCardName(),
                 card.getBenefits(),
-                "/images/" + card.getId() + ".png" // ID를 기반으로 이미지 URL 생성
+                "/images/" + card.getId() + ".png", // ID를 기반으로 이미지 URL 생성
+                card.getCardUrl() // 엔티티에서 URL 정보를 가져와 DTO에 설정
         );
     }
 }
