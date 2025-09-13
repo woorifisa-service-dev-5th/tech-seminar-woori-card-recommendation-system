@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server';
 
 // Spring Webflux 서버의 주소
-const SPRING_SERVER_URL = 'http://localhost:8081/api/chat/stream';
+const SPRING_SERVER_URL = 'http://localhost:8080/api/chat/stream';
 
 export async function POST(req: NextRequest) {
     try {

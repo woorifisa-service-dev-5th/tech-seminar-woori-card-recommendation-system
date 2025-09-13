@@ -5,7 +5,9 @@ ai:
   server:
     url: http://127.0.0.1:8000
 
-
+spring:
+  profiles:
+    active: local
 
   data:
     mongodb:

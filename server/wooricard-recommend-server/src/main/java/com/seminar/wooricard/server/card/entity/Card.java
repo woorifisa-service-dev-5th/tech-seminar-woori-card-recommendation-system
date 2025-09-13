@@ -15,8 +15,10 @@ public class Card {
     @Field("card_name")
     private String cardName;
 
+    @Field("benefits")
     private String benefits;
 
     @Field("card_url")
     private String cardUrl;
 }
+
