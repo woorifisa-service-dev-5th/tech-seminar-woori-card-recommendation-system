@@ -56,10 +56,7 @@ name_extractor_prompt = ChatPromptTemplate.from_template(name_extractor_template
 
 
 def get_rag_chains(model_name: str) -> dict:
-    """
-    클라이언트가 요청한 모델 이름에 따라 LLM을 선택하고,
-    '설명 생성 체인'과 '이름 추출 체인' 두 개를 딕셔너리로 반환합니다.
-    """
+
     if "gemini" in model_name:
         print(f"INFO: Using Google Gemini model: {model_name}")
         llm = ChatGoogleGenerativeAI(

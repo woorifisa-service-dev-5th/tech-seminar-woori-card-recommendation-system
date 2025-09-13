@@ -16,7 +16,7 @@ public class ChatService {
 
     private final WebClient aiWebClient;
 
-    // ✨ 반환 타입을 Flux<String>에서 Flux<DataBuffer>로 변경
+    // 반환 타입을 Flux<String>에서 Flux<DataBuffer>로 변경
     public Flux<DataBuffer> getStreamingChatResponse(ChatRequest request) {
         log.info("Attempting to connect to AI server with query: {}", request.getQuery());
 

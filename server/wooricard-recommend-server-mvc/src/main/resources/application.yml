@@ -1,0 +1,27 @@
+server:
+  port: 8081
+
+ai:
+  server:
+    url: http://127.0.0.1:8000
+
+spring:
+  profiles:
+    active: local
+
+
+  session:
+    store-type: jdbc
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/woori_card
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+
