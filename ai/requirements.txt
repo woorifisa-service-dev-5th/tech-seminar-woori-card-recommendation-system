@@ -3,6 +3,7 @@ fastapi
 uvicorn[standard]
 httpx
 python-dotenv
+httpie
 
 --- LangChain RAG 파이프라인 ---
 langchain
