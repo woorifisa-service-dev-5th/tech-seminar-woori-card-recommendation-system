@@ -11,10 +11,7 @@ import reactor.netty.resources.ConnectionProvider;
 
 import java.time.Duration;
 
-/**
- * WebFlux(Netty) 기반의 비동기 HTTP 클라이언트 WebClient 설정 클래스입니다.
- * RestTemplateConfig와 동일한 기준으로 성능 평가를 위해 설정을 통일합니다.
- */
+
 @Configuration
 public class WebClientConfig {
 

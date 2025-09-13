@@ -3,7 +3,7 @@ package com.seminar.wooricard.server.chat.controller;
 import com.seminar.wooricard.server.chat.dto.ChatRequest;
 import com.seminar.wooricard.server.chat.service.ChatService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.buffer.DataBuffer; // 👈 import 추가
+import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
