@@ -1,0 +1,15 @@
+server:
+  port: 8082
+
+ai:
+  server:
+    url: http://127.0.0.1:8000
+
+spring:
+  profiles:
+    active: local
+
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/woori_card
+

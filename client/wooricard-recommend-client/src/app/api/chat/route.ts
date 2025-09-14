@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server';
 
 // Spring Webflux 서버의 주소
-const SPRING_SERVER_URL = 'http://localhost:8080/api/chat/stream';
+const SPRING_SERVER_URL = 'http://localhost:8082/api/chat/stream';
 
 export async function POST(req: NextRequest) {
     try {
@@ -14,7 +14,6 @@ export async function POST(req: NextRequest) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 query: body.query,
-                model: 'gemini-2.5-flash', // 사용할 모델을 명시합니다.(예: gemini-2.5-flash, llama-3.1-8b-instant)
             }),
         });
 

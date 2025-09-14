@@ -12,8 +12,9 @@ Spring MVC(Blocking I/O)와 Spring WebFlux(Non-blocking I/O)의 성능을 비교
 woori-card-recommendation-system/
 ├── ai/ # Python FastAPI AI 서버
 ├── server/
-│ ├── wooricard-recommend-server/ # Spring WebFlux 비동기 서버 (MongoDB)
+│ ├── wooricard-recommend-server-webflux/ # Spring WebFlux 비동기 서버 (MongoDB)
 │ └── wooricard-recommend-server-mvc/ # Spring MVC 동기 서버 (MySQL)
+└─└── wooricard-recommend-server-webflux-refactor/# Spring WebFlux refactor 서버(MongoDB)
 └── client/
 └── wooricard-recommend-client/ # Next.js 프론트엔드
 ```
@@ -47,17 +48,19 @@ woori-card-recommendation-system/
 - **Embedding**: HuggingFace (jhgan/ko-sroberta-multitask)  
 - **Vector Store**: FAISS  
 
+### Backend (wooricard-recommend-server-webflux)
+- **Framework**: Spring Boot, Spring WebFlux  
+- **Language**: Java 17  
+- **Database**: Spring Data Reactive MongoDB  
+- **HTTP Client**: WebClient  
+
 ### Backend (wooricard-recommend-server-mvc)
 - **Framework**: Spring Boot, Spring MVC  
 - **Language**: Java 17  
 - **Database**: Spring Data JPA, MySQL  
 - **HTTP Client**: RestTemplate  
 
-### Backend (wooricard-recommend-server)
-- **Framework**: Spring Boot, Spring WebFlux  
-- **Language**: Java 17  
-- **Database**: Spring Data Reactive MongoDB  
-- **HTTP Client**: WebClient  
+
 
 ---
 
@@ -79,7 +82,6 @@ woori-card-recommendation-system/
 cd ai
 
 # 가상환경 생성 및 활성화, 라이브러리 설치
-python -m venv venv && source venv/Scripts/activate
 pip install -r requirements.txt
 
 # .env 파일 생성 및 API 키 입력 (GEMINI_API_KEY, GROQ_API_KEY)
@@ -107,7 +109,7 @@ src/main/resources/application.yml 에 DB 연결 정보 설정
 
 (2) WebFlux 서버 (MongoDB)
 
-IntelliJ 등 IDE로 server/wooricard-recommend-server 프로젝트 열기
+IntelliJ 등 IDE로 server/wooricard-recommend-server-webflux 프로젝트 열기
 
 MongoDB에 woori_card 데이터베이스와 card 컬렉션 생성 후 데이터 입력
 
