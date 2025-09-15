@@ -182,7 +182,8 @@ export function useChat() {
             const query = new URLSearchParams(window.location.search).get('q');
             if (query) {
                 hasFetchedInitial.current = true;
-                sendMessage(decodeURIComponent(query));
+                // 수정: URLSearchParams.get()이 이미 값을 디코딩하므로 decodeURIComponent()를 제거합니다.
+                sendMessage(query);
             }
         }
     }, [sendMessage]);

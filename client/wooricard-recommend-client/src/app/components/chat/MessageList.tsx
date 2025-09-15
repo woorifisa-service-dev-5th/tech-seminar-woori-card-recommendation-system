@@ -29,7 +29,6 @@ export default function MessageList({ messages, isLoading }: MessageListProps) {
                         <Message message={msg} />
                     </div>
                 ))}
-                {/* ✨ [추가] isLoading 상태일 때 TypingIndicator를 렌더링합니다. */}
                 {isLoading && <TypingIndicator />}
                 <div ref={messagesEndRef} />
             </div>

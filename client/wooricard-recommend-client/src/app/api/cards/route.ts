@@ -23,9 +23,11 @@ export async function GET(req: NextRequest) {
         const springResponse = await fetch(
             `${SPRING_SERVER_URL}?names=${encodeURIComponent(names)}`
         );
-
+        
         if (!springResponse.ok) {
             const errorText = await springResponse.text();
+            // 에러 발생 시에도 Spring 서버가 보낸 내용을 로그로 남깁니다.
+            console.error(`Error from Spring server (status: ${springResponse.status}):`, errorText);
             return NextResponse.json(
                 { error: `Error from Spring server: ${errorText}` },
                 { status: springResponse.status }
@@ -33,6 +35,8 @@ export async function GET(req: NextRequest) {
         }
 
         const cardData: CardData[] = await springResponse.json();
+
+        console.log(cardData);
 
         const cardDataWithFullUrl = cardData.map((card) => ({
             ...card,

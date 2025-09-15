@@ -14,13 +14,11 @@ const springValues: SpringOptions = {
     mass: 1,
 };
 
-/**
- * A container that applies a 3D tilt effect to its children based on mouse position.
- */
+
 export default function TiltedContainer({
     children,
-    scaleOnHover = 1.02, // Subtle scale effect
-    rotateAmplitude = 4, // Subtle rotate effect for a large container
+    scaleOnHover = 1.02,
+    rotateAmplitude = 4, 
 }: TiltedContainerProps) {
     const ref = useRef<HTMLDivElement>(null);
 

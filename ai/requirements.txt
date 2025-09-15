@@ -1,15 +1,24 @@
---- 웹 프레임워크 및 서버 ---
+# 웹 프레임워크 및 서버
 fastapi
 uvicorn[standard]
 httpx
 python-dotenv
+httpie
 
---- LangChain RAG 파이프라인 ---
+# LangChain RAG 파이프라인
 langchain
-langchain-google-genai  # Groq 대신 Gemini를 위한 라이브러리
+langchain-google-genai 
 pandas
+langchain-groq
+langchain-huggingface
+langchain-community
+faiss-cpu
 
---- Vector DB 및 임베딩 모델 ---
+# Vector DB 및 임베딩 모델
 faiss-cpu
 langchain-huggingface
 sentence-transformers
+
+# 실행
+# python create_vector_db.py
+# uvicorn app.main:app --reload

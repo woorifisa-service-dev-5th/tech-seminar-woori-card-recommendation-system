@@ -9,9 +9,9 @@ export function parseCardNames(text: string): string[] | null {
     if (match && match[1]) {
         try {
             // 💡 AI가 생성한 배열 문자열의 단일 인용부호(')를 이중 인용부호(")로 변경합니다.
-            const validJsonString = match[1].replace(/'/g, '"'); // <--- 수정된 부분
+            const validJsonString = match[1].replace(/'/g, '"'); 
 
-            const cardNames = JSON.parse(validJsonString); // <--- 수정된 부분
+            const cardNames = JSON.parse(validJsonString); 
 
             if (
                 Array.isArray(cardNames) &&
