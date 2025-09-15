@@ -1,26 +1,31 @@
 /**
  * AI 응답 텍스트에서 카드 이름 식별자를 파싱하여 이름 배열을 추출합니다.
- * @param text AI가 생성한 전체 응답 문자열
- * @returns 카드 이름 배열 또는 null
  */
 export function parseCardNames(text: string): string[] | null {
-    // CARD_NAME::["이름1", "이름2"] 형식의 문자열을 찾습니다.
-    const match = text.match(/CARD_NAME::(\[.*?\])/);
+    // 1. AI가 보낸 전체 텍스트에서 CARD_NAME::[...] 부분을 찾습니다.
+    const match = text.match(/CARD_NAME::(\[.*?\])/s);
+
     if (match && match[1]) {
         try {
-            // 💡 AI가 생성한 배열 문자열의 단일 인용부호(')를 이중 인용부호(")로 변경합니다.
-            const validJsonString = match[1].replace(/'/g, '"'); 
+            // 2. 찾은 부분에서 양쪽 대괄호 "[]"를 잘라내고 내용물만 꺼냅니다.
+            // 예: `["이름1", "이름2"]` -> `"이름1", "이름2"`
+            const content = match[1].slice(1, -1);
 
-            const cardNames = JSON.parse(validJsonString); 
-
-            if (
-                Array.isArray(cardNames) &&
-                cardNames.every((item) => typeof item === 'string')
-            ) {
-                return cardNames;
+            // 3. 내용물이 비어있으면 빈 목록을 돌려주고 끝냅니다.
+            if (!content.trim()) {
+                return [];
             }
+
+            // 4. 쉼표(,)를 기준으로 각 카드 이름을 분리합니다.
+            const cardNames = content.split(',').map((name) => {
+                // 5. 각 이름의 양 끝에 있는 공백과 따옴표(' 또는 ")를 깨끗하게 제거합니다.
+                return name.trim().replace(/^['"]|['"]$/g, '');
+            });
+
+            // 6. 깨끗하게 정리된 카드 이름 목록을 최종 결과로 돌려줍니다.
+            return cardNames;
         } catch (e) {
-            console.error('Failed to parse card names:', e);
+            console.error('카드 이름 파싱 실패:', e);
             return null;
         }
     }
@@ -28,7 +33,7 @@ export function parseCardNames(text: string): string[] | null {
 }
 
 /**
- * AI 응답 텍스트에서 카드 이름 식별자 부분을 제거하여 순수한 답변만 남깁니다.
+ * AI 응답 텍스트에서 카드 이름 식별자 부분을 제거하여 순수한 답변만 남김.
  * @param text AI가 생성한 전체 응답 문자열
  * @returns 카드 이름 식별자가 제거된 문자열
  */

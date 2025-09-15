@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import type { CardData } from '@/types/type'; // CardData 타입을 import합니다.
 
-const SPRING_SERVER_URL = 'http://localhost:8081/api/cards';
-const SPRING_SERVER_BASE_URL = 'http://localhost:8081'; // 이미지 경로를 위한 기본 URL
+const SPRING_SERVER_URL = 'http://localhost:8080/api/cards';
+const SPRING_SERVER_BASE_URL = 'http://localhost:8080'; // 이미지 경로를 위한 기본 URL
 
 /**
  * 카드 이름 목록을 받아 Spring 서버에 상세 정보를 요청하고,
@@ -23,14 +23,11 @@ export async function GET(req: NextRequest) {
         const springResponse = await fetch(
             `${SPRING_SERVER_URL}?names=${encodeURIComponent(names)}`
         );
-
+        
         if (!springResponse.ok) {
             const errorText = await springResponse.text();
             // 에러 발생 시에도 Spring 서버가 보낸 내용을 로그로 남깁니다.
-            console.error(
-                `Error from Spring server (status: ${springResponse.status}):`,
-                errorText
-            );
+            console.error(`Error from Spring server (status: ${springResponse.status}):`, errorText);
             return NextResponse.json(
                 { error: `Error from Spring server: ${errorText}` },
                 { status: springResponse.status }

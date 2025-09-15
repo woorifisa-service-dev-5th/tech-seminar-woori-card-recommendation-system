@@ -87,7 +87,6 @@ export function useChat() {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         query: input,
-                        model: 'gemini-2.5-flash',
                     }),
                     signal: newAbortController.signal,
                 });
@@ -110,13 +109,14 @@ export function useChat() {
 
                     if (done) break;
 
+                    // [수정] 아래 로직을 더 안정적인 줄 단위 처리로 변경
                     buffer += decoder.decode(value, { stream: true });
-                    const parts = buffer.split('\n\n');
-                    buffer = parts.pop() || '';
+                    const lines = buffer.split('\n'); // 줄 단위로 나눔
+                    buffer = lines.pop() || ''; // 마지막 줄은 불완전할 수 있으므로 다시 버퍼에 저장
 
-                    for (const part of parts) {
-                        if (part.startsWith('data: ')) {
-                            fullResponseText += part.substring(6);
+                    for (const line of lines) {
+                        if (line.startsWith('data: ')) {
+                            fullResponseText += line.substring(6);
                         }
                     }
 
@@ -133,7 +133,11 @@ export function useChat() {
                     fullResponseText += buffer.substring(6);
                 }
 
+                // [디버깅] 전체 응답과 파싱 결과를 확인
+                console.log('Final fullResponseText:', fullResponseText);
                 const cardNames = parseCardNames(fullResponseText);
+                console.log('Parsed cardNames:', cardNames);
+
                 const cleanedText = cleanUpResponseText(fullResponseText);
 
                 setMessages((prev) =>
@@ -182,7 +186,6 @@ export function useChat() {
             const query = new URLSearchParams(window.location.search).get('q');
             if (query) {
                 hasFetchedInitial.current = true;
-                // 수정: URLSearchParams.get()이 이미 값을 디코딩하므로 decodeURIComponent()를 제거합니다.
                 sendMessage(query);
             }
         }
