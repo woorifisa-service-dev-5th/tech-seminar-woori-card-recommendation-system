@@ -26,7 +26,6 @@ export default function SearchBar() {
 
     return (
         <div className='relative w-full max-w-4xl'>
-            {/* Background glow effect */}
             <div className='absolute inset-0 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500' />
 
             <form
@@ -45,7 +44,6 @@ export default function SearchBar() {
                     }
                 `}
             >
-                {/* Inner container with glassmorphism */}
                 <div className='flex items-center w-full bg-slate-800/30 rounded-xl p-3'>
                     <button
                         type='button'
@@ -100,7 +98,6 @@ export default function SearchBar() {
                         )}
                     </div>
 
-                    {/* AI sparkles indicator */}
                     <div className='flex items-center space-x-3'>
                         <button
                             type='button'
@@ -113,7 +110,6 @@ export default function SearchBar() {
                             </span>
                         </button>
 
-                        {/* Voice search button */}
                         <button
                             type='button'
                             className={`
