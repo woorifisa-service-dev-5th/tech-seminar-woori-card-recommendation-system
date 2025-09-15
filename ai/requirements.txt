@@ -1,3 +1,7 @@
+# 서버 실행
+# python create_vector_db.py
+# uvicorn app.main:app --reload
+
 # 웹 프레임워크 및 서버
 fastapi
 uvicorn[standard]
@@ -19,6 +23,4 @@ faiss-cpu
 langchain-huggingface
 sentence-transformers
 
-# 실행
-# python create_vector_db.py
-# uvicorn app.main:app --reload
+

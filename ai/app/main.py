@@ -9,7 +9,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 app = FastAPI(
     title="RAG-based LLM Streaming Server",
     description="LangChain과 FastAPI를 사용하여 카드 정보를 기반으로 추천하는 안정화된 스트리밍 서버",
-    version="5.1.0" # 버전 업데이트
+    version="3.0.0" 
 )
 
 async def stream_prose_then_names(chains: dict, query: str):
@@ -22,7 +22,6 @@ async def stream_prose_then_names(chains: dict, query: str):
     prose_chain = chains["prose"]
 
     try:
-        # --- 1. 설명 스트리밍 및 전체 내용 저장 ---
         async for chunk in prose_chain.astream(query):
             if chunk:
                 full_prose_response += chunk
@@ -30,7 +29,7 @@ async def stream_prose_then_names(chains: dict, query: str):
         
         logging.info(f"'{query}'에 대한 설명(prose) 스트림 완료.")
 
-        # --- 2. [핵심] 결과 확인 후 조건부로 카드 이름 전송 ---
+        # --- 결과 확인 후 조건부로 카드 이름 전송 ---
         # strip()으로 앞뒤 공백을 제거하여 정확하게 비교합니다.
         if full_prose_response.strip() != REFUSAL_MESSAGE:
             name_extractor_chain = chains["names"]

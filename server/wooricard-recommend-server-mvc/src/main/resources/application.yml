@@ -9,6 +9,9 @@ spring:
   profiles:
     active: local
 
+  sql:
+    init:
+      platform: mysql
 
   session:
     store-type: jdbc
@@ -16,6 +19,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/woori_card
+    username: root
+    password: 1234
 
   jpa:
     hibernate:
@@ -24,4 +29,3 @@ spring:
       hibernate:
         format_sql: true
     show-sql: true
-
