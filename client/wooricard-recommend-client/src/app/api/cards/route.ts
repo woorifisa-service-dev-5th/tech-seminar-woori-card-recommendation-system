@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import type { CardData } from '@/types/type'; // CardData 타입을 import합니다.
 
-const SPRING_SERVER_URL = 'http://localhost:8081/api/cards';
-const SPRING_SERVER_BASE_URL = 'http://localhost:8081'; // 이미지 경로를 위한 기본 URL
+const SPRING_SERVER_URL = 'http://localhost:8082/api/cards';
+const SPRING_SERVER_BASE_URL = 'http://localhost:8082'; // 이미지 경로를 위한 기본 URL
 
 /**
  * 카드 이름 목록을 받아 Spring 서버에 상세 정보를 요청하고,

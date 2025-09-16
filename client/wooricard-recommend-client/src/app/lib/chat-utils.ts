@@ -38,6 +38,12 @@ export function parseCardNames(text: string): string[] | null {
  * @returns 카드 이름 식별자가 제거된 문자열
  */
 export function cleanUpResponseText(text: string): string {
-    // 이 함수는 파싱을 하지 않으므로 수정할 필요가 없습니다.
-    return text.replace(/CARD_NAME::(\[.*?\])/, '').trim();
+    // 1. CARD_NAME::[...] 부분을 제거합니다. 's' 플래그는 여러 줄에 걸쳐 있어도 찾도록 합니다.
+    let cleanedText = text.replace(/CARD_NAME::\[.*?\]/s, '');
+
+    // 2. 스트림 마지막에 오는 카드 상세 정보 JSON 배열 `[{...}]` 부분을 제거합니다.
+    cleanedText = cleanedText.replace(/\[\s*\{.*\}\s*\]$/s, '');
+
+    // 3. 양 끝의 공백을 제거하여 최종적으로 깔끔한 텍스트를 반환합니다.
+    return cleanedText.trim();
 }
