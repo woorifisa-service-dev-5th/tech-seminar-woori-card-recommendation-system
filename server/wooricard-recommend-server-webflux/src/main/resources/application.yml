@@ -9,7 +9,13 @@ spring:
   profiles:
     active: local
 
+
   data:
     mongodb:
       uri: mongodb://localhost:27017/woori_card
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metrics, prometheus, threaddump
