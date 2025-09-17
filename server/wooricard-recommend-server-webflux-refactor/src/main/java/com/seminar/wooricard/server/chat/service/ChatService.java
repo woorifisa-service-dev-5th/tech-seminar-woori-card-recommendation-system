@@ -45,14 +45,10 @@ public class ChatService {
     }
 
     /**
-     * AI 응답 토큰 스트림을 그대로 클라이언트에 전달하고,
-     * 스트림이 완료된 후 누적된 전체 텍스트에서 카드 이름을 파싱하여
-     * 카드 상세 정보 JSON 배열을 스트림의 마지막에 이어 붙입니다.
      * @param inputStream 원본 AI 응답 스트림 (Flux<DataBuffer>)
      * @return 토큰 스트림 + 최종 JSON 배열 스트림
      */
     private Flux<DataBuffer> processStreamAndChainCardDetails(Flux<DataBuffer> inputStream) {
-        // 상태를 저장할 변수 (스트림의 side-effect로 사용되지만, onComplete 시점에서만 읽으므로 안전)
         StringBuilder fullResponse = new StringBuilder();
 
         // 1. AI 스트림 처리: 토큰을 그대로 전달하면서, 전체 응답을 StringBuilder에 누적
@@ -62,8 +58,7 @@ public class ChatService {
                     fullResponse.append(StandardCharsets.UTF_8.decode(dataBuffer.asByteBuffer().asReadOnlyBuffer()));
                 });
 
-        // 2. 토큰 스트림이 완료된 "후에" 실행될 카드 상세 정보 조회 Mono
-        // Mono.defer()는 구독 시점(즉, tokenStream이 완료된 후)에 내부 로직을 실행하도록 보장합니다.
+        // 2. 토큰 스트림이 완료된 후에 실행될 카드 상세 정보 조회 Mono
         Mono<DataBuffer> cardDetailsJsonStream = Mono.defer(() -> {
             String finalResponseText = fullResponse.toString();
             List<String> cardNames = ChatParsingUtils.parseCardNames(finalResponseText);
@@ -75,12 +70,11 @@ public class ChatService {
 
             log.info("Fetching details for cards found in final response: {}", cardNames);
             return cardService.getCardDetailsByNames(cardNames)
-                    .collectList() // Flux<CardDetailResponse>를 Mono<List<CardDetailResponse>>로 변환
+                    .collectList()
                     .flatMap(this::convertCardListToJsonBuffer); // List를 최종 JSON DataBuffer로 변환
         });
 
-        // 3. 토큰 스트림과, 그것이 완료된 후 실행될 카드 정보 스트림을 이어 붙입니다.
-        // concatWith는 tokenStream이 완전히 종료된 후에 cardDetailsJsonStream을 구독하고 실행합니다.
+        // 3. 토큰 스트림과, 카드정보 이어붙임.
         return tokenStream.concatWith(cardDetailsJsonStream);
     }
 
@@ -94,11 +88,9 @@ public class ChatService {
             return Mono.empty();
         }
         try {
-            // SSE 형식이 아닌, 순수한 JSON 배열 문자열을 생성
             String jsonArray = objectMapper.writeValueAsString(cardList);
             log.info("Sending final card details JSON array: {}", jsonArray);
 
-            // 클라이언트에서 파싱할 수 있도록 Server-Sent Events 형식에 맞춰 data 필드에 담아 전송
             String finalPayload = "data: " + jsonArray + "\n\n";
             return Mono.just(stringToDataBuffer(finalPayload));
         } catch (JsonProcessingException e) {
