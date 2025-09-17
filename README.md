@@ -1,6 +1,6 @@
-# 🤖 AI 기반 우리카드 추천 챗봇 시스템
+# 우리카드 추천 챗봇
 
-LLM(거대 언어 모델)과 RAG(Retrieval-Augmented Generation)를 활용한 **실시간 카드 추천 시스템**입니다.
+LLM과 RAG(Retrieval-Augmented Generation)를 활용한 **실시간 카드 추천 시스템**입니다.
 
 Spring MVC(Blocking I/O)와 Spring WebFlux(Non-blocking I/O)의 성능을 비교하기 위해, 동일한 비즈니스 로직을 가진 두 종류의 백엔드 서버를 구축하였습니다.
 사용자의 자연어 질문을 이해하여 가장 적합한 우리카드를 **실시간 스트리밍 방식**으로 추천합니다.
@@ -24,8 +24,6 @@ woori-card-recommendation-system/
 ---
 
 ## 🏗️ 시스템 아키텍처
-
-본 프로젝트는 성능 비교를 위해 **두 개의 독립적인 백엔드 서버**를 운영하는 **마이크로서비스 아키텍처**로 설계되었습니다.
 
 ---
 
@@ -73,9 +71,9 @@ woori-card-recommendation-system/
 
 ### 📌 사전 준비
 
--   Java 17+ (JDK)
+-   Java 17 (JDK)
 -   Node.js 18+
--   Python 3.9+
+-   Python 3.7+
 -   MySQL Server
 -   MongoDB Community Server
 
