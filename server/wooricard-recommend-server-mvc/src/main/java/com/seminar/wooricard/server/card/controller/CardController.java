@@ -17,7 +17,6 @@ public class CardController {
 
     private final CardService cardService;
 
-    // 반환 타입을 Flux에서 List로
     @GetMapping
     public List<CardDetailResponse> getCardDetails(@RequestParam List<String> names) {
         return cardService.getCardDetailsByNames(names);

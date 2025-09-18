@@ -7,11 +7,7 @@ import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-/**
- * ResponseBodyEmitter를 관리하는 유틸리티 클래스입니다.
- * ResponseBodyEmitter는 Server-Sent Events(SSE)를 위해 사용되며,
- * 서버에서 클라이언트로 단방향 데이터 스트리밍을 지원합니다.
- */
+
 @Component
 public class EmitterUtils {
 
