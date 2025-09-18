@@ -12,7 +12,7 @@ public class ChatParsingUtils {
     private static final Pattern CARD_NAME_PATTERN = Pattern.compile("CARD_NAME::\\s*(\\[.*?\\])");
 
     /**
-     * AI 응답 텍스트에서 카드 이름 목록을 추출합니다.
+     * AI 응답 텍스트에서 카드 이름 목록을 추출
      * @param text AI 응답의 일부 (스트림 청크)
      * @return 추출된 카드 이름 목록
      */
@@ -24,7 +24,7 @@ public class ChatParsingUtils {
         Matcher matcher = CARD_NAME_PATTERN.matcher(text);
         if (matcher.find()) {
             try {
-                // 1. 대괄호 안의 내용만 추출합니다. 예: '"카드1", "카드2"'
+                // 대괄호 안의 내용만 추출
                 String content = matcher.group(1).replace("[", "").replace("]", "");
 
                 if (content.trim().isEmpty()) {
@@ -32,13 +32,13 @@ public class ChatParsingUtils {
                 }
 
                 List<String> cardNames = new ArrayList<>();
-                // 2. 쉼표를 기준으로 분리하고, 각 이름의 앞뒤 공백과 따옴표를 제거합니다.
+                // 쉼표를 기준으로 분리하고, 각 이름의 앞뒤 공백과 따옴표를 제거
                 for (String name : content.split(",")) {
                     cardNames.add(name.trim().replaceAll("^\"|\"$", ""));
                 }
                 return cardNames;
             } catch (Exception e) {
-                // 파싱 중 에러가 발생하면 빈 리스트를 반환합니다.
+                // 파싱 중 에러가 발생하면 빈 리스트를 반환
                 return Collections.emptyList();
             }
         }
