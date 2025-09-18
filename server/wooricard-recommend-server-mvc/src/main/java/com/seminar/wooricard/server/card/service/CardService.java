@@ -15,7 +15,6 @@ public class CardService {
 
     private final CardRepository cardRepository;
 
-    // 반환 타입을 Flux에서 List로 변경하고, stream()을 사용하여 DTO로 변환합니다.
     public List<CardDetailResponse> getCardDetailsByNames(List<String> cardNames) {
         return cardRepository.findByCardNameIn(cardNames).stream()
                 .map(this::toDto)

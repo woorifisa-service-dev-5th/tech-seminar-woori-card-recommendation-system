@@ -48,7 +48,7 @@ public class ChatService {
                                 body.put("query", request.getQuery());
                                 objectMapper.writeValue(requestCallback.getBody(), body);
                             } catch (IOException e) {
-                                log.error("Failed to write request body", e);
+                                log.error("요청 바디 query 실패", e);
                                 throw new RuntimeException(e);
                             }
                         },
@@ -67,7 +67,7 @@ public class ChatService {
                         }
                 );
             } catch (Exception e) {
-                log.error("Error during AI server stream processing", e);
+                log.error("AI 서버 스트림 에러", e);
                 emitter.completeWithError(e); // 에러 발생 시 스트림 종료
             } finally {
                 executor.shutdown();
