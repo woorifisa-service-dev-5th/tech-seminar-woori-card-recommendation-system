@@ -1,8 +1,8 @@
-package com.seminar.wooricard.server.card.service;
+package com.seminar.wooricard.server.chat.service;
 
-import com.seminar.wooricard.server.card.dto.CardDetailResponse;
-import com.seminar.wooricard.server.card.entity.Card;
-import com.seminar.wooricard.server.card.repository.CardRepository;
+import com.seminar.wooricard.server.chat.dto.CardDetailResponse;
+import com.seminar.wooricard.server.chat.entity.Card;
+import com.seminar.wooricard.server.chat.repository.CardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;

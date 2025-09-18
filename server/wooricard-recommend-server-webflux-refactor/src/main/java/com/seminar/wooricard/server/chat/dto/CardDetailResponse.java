@@ -1,4 +1,4 @@
-package com.seminar.wooricard.server.card.dto;
+package com.seminar.wooricard.server.chat.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

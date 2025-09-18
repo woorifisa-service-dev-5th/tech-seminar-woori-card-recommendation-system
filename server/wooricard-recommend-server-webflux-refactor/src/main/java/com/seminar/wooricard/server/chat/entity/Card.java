@@ -1,4 +1,4 @@
-package com.seminar.wooricard.server.card.entity;
+package com.seminar.wooricard.server.chat.entity;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;

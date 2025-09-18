@@ -2,8 +2,7 @@ package com.seminar.wooricard.server.chat.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.seminar.wooricard.server.card.dto.CardDetailResponse;
-import com.seminar.wooricard.server.card.service.CardService;
+import com.seminar.wooricard.server.chat.dto.CardDetailResponse;
 import com.seminar.wooricard.server.chat.dto.ChatRequest;
 import com.seminar.wooricard.server.chat.utils.ChatParsingUtils;
 import lombok.RequiredArgsConstructor;
@@ -40,7 +39,7 @@ public class ChatService {
                 .bodyToFlux(DataBuffer.class)
                 .doOnError(error -> log.error("AI server stream error", error));
 
-        // transform을 사용하여 스트림 처리 로직을 캡슐화하고 재사용 가능하게 만듭니다.
+
         return aiResponseStream.transform(this::processStreamAndChainCardDetails);
     }
 
@@ -51,14 +50,14 @@ public class ChatService {
     private Flux<DataBuffer> processStreamAndChainCardDetails(Flux<DataBuffer> inputStream) {
         StringBuilder fullResponse = new StringBuilder();
 
-        // 1. AI 스트림 처리: 토큰을 그대로 전달하면서, 전체 응답을 StringBuilder에 누적
+        // AI 스트림 처리: 토큰을 그대로 전달하면서, 전체 응답을 StringBuilder에 누적
         Flux<DataBuffer> tokenStream = inputStream
                 .doOnNext(dataBuffer -> {
                     // asReadOnlyBuffer()를 사용하여 원본 버퍼를 수정하지 않도록 보장
                     fullResponse.append(StandardCharsets.UTF_8.decode(dataBuffer.asByteBuffer().asReadOnlyBuffer()));
                 });
 
-        // 2. 토큰 스트림이 완료된 후에 실행될 카드 상세 정보 조회 Mono
+        // 토큰 스트림이 완료된 후에 실행될 카드 상세 정보 조회 Mono
         Mono<DataBuffer> cardDetailsJsonStream = Mono.defer(() -> {
             String finalResponseText = fullResponse.toString();
             List<String> cardNames = ChatParsingUtils.parseCardNames(finalResponseText);
@@ -74,12 +73,11 @@ public class ChatService {
                     .flatMap(this::convertCardListToJsonBuffer); // List를 최종 JSON DataBuffer로 변환
         });
 
-        // 3. 토큰 스트림과, 카드정보 이어붙임.
+        // 토큰 스트림과, 카드정보 이어붙임.
         return tokenStream.concatWith(cardDetailsJsonStream);
     }
 
     /**
-     * List<CardDetailResponse>를 최종 JSON 배열 형태의 DataBuffer로 변환합니다.
      * @param cardList 카드 상세 정보 리스트
      * @return SSE 형식으로 래핑된 JSON 배열 DataBuffer
      */
@@ -95,7 +93,7 @@ public class ChatService {
             return Mono.just(stringToDataBuffer(finalPayload));
         } catch (JsonProcessingException e) {
             log.error("Failed to serialize card list to JSON", e);
-            return Mono.error(e); // 에러 발생 시 스트림에 에러 신호를 보냄
+            return Mono.error(e);
         }
     }
 

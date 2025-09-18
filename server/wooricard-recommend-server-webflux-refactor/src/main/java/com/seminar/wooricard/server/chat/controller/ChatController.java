@@ -20,7 +20,6 @@ public class ChatController {
 
     @PostMapping(value = "/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<DataBuffer> streamChat(@RequestBody ChatRequest request) {
-        // 변경된 서비스 메서드를 호출합니다.
         return chatService.getChainedChatResponse(request);
     }
 }

@@ -13,12 +13,14 @@ Spring MVC(Blocking I/O)와 Spring WebFlux(Non-blocking I/O)의 성능을 비교
 woori-card-recommendation-system/
 ├── ai/ # Python FastAPI AI 서버
 ├── server/
-│ ├── wooricard-recommend-server-webflux/ # Spring WebFlux 비동기 서버 (MongoDB)
-│ └── wooricard-recommend-server-mvc/ # Spring MVC 동기 서버 (MySQL)
-└─└── wooricard-recommend-server-webflux-refactor/# Spring WebFlux refactor 서버(MongoDB)
+│   ├── wooricard-recommend-server-webflux-refactor/# Spring WebFlux api 통합 gateway 서버(MongoDB) # PORT : 8082
+│   ├── wooricard-recommend-server-webflux/ # Spring WebFlux 서버 (MongoDB) # PORT : 8080
+│   ├── wooricard-recommend-server-mvc/ # Spring MVC 서버 (MySQL) # PORT : 8081
+│   └── db-data/ # 카드 데이터 입력 sql 파일(MySQL, MongoDB)
+│
 └── client/
-└── wooricard-recommend-client/ # Next.js 프론트엔드
-└── wooricard-recommend-client-refactor/ # 통합api를 연결한 client
+    └── wooricard-recommend-client/ # Next.js 프론트엔드 # PORT : 3000
+    └── wooricard-recommend-client-refactor/ # 통합api를 연결한 client
 ```
 
 ---
@@ -27,7 +29,7 @@ woori-card-recommendation-system/
 
 ---
 
--   **Next.js Client**: 사용자와의 상호작용을 담당하는 UI 계층. 백엔드 서버(MVC or WebFlux) 선택 가능
+-   **Next.js Client**: Chat-Bot 클라이언트. 백엔드 서버(MVC or WebFlux)는 api/route 파일에서, Port 변경으로로 선택 가능
 -   **Spring MVC Backend**: 동기/블로킹 방식 서버 (RestTemplate + MySQL)
 -   **Spring WebFlux Backend**: 비동기/논블로킹 방식 서버 (WebClient + Reactive MongoDB)
 -   **FastAPI AI Server**: LangChain RAG 체인을 실행하는 AI 전문 서버
@@ -104,9 +106,9 @@ uvicorn app.main:app --reload
 ```bash
 ### (1) MVC 서버 (MySQL)
 
-IntelliJ 등 IDE로 server/wooricard-recommend-server-mvc 프로젝트 열기
+IDE로 server/wooricard-recommend-server-webflux-mvc 프로젝트 열기
 
-MySQL에 woori_card 데이터베이스 생성 및 쿼리 입력(.sql은 추후 추가 예정)
+MySQL에 woori_card 데이터베이스 생성 및 쿼리 입력(db_data 파일 참고)
 
 
 src/main/resources/application.yml 에 DB 연결 정보 설정
@@ -115,9 +117,9 @@ src/main/resources/application.yml 에 DB 연결 정보 설정
 
 (2) WebFlux 서버 (MongoDB)
 
-IntelliJ 등 IDE로 server/wooricard-recommend-server-webflux-refactor 프로젝트 열기
+IDE로 server/wooricard-recommend-server-webflux-refactor 프로젝트 열기
 
-MongoDB에 woori_card 데이터베이스와 card 컬렉션 생성 후 데이터 입력
+MongoDB에 woori_card 데이터베이스와 card 컬렉션 생성 후 데이터 입력(db_data 파일 참고)
 
 src/main/resources/application.yml 에 DB 연결 정보 설정
 
@@ -142,3 +144,7 @@ npm run dev
 ### 🚀 성능 테스트
 
 본 프로젝트의 목표는 동일한 로직을 수행하는 MVC(Blocking) 서버와 WebFlux(Non-Blocking) 서버의 로직 개선과 성능 비교입니다.
+
+1. Grafana Thread Test
+
+2. Grafana K6 Database Read Test
