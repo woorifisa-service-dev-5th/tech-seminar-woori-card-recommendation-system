@@ -6,20 +6,20 @@ import { check, group } from 'k6';
 export const options = {
     scenarios: {
         contacts: {
-            executor: 'ramping-vus', // 점진적으로 사용자를 늘리는 시나리오
+            executor: 'ramping-vus',
             startVUs: 0,
             stages: [
-                // 1단계: 1분 동안 가상 사용자를 500명까지 대폭 늘립니다.
+                // 1단계: 1분 동안 가상 사용자를 500명까지 대폭 늘림
                 { duration: '1m', target: 500 },
-                // 2단계: 500명의 사용자로 2분 동안 최대 부하를 유지합니다.
+                // 2단계: 500명의 사용자로 2분 동안 최대 부하를 유지
                 { duration: '2m', target: 500 },
-                // 3단계: 30초 동안 사용자를 0명으로 줄입니다.
+                // 3단계: 30초 동안 사용자를 0명으로 줄임
                 { duration: '30s', target: 0 },
             ],
             gracefulRampDown: '10s',
         },
     },
-    // 테스트 성공/실패 기준 (부하가 매우 높으므로 실패율 기준을 약간 완화)
+    // 테스트 성공/실패 기준
     thresholds: {
         http_req_failed: ['rate<0.02'], // http 에러 발생률이 2% 미만
         http_req_duration: ['p(95)<1500'], // 요청의 95%는 1500ms 안에 처리
@@ -29,7 +29,6 @@ export const options = {
 
 const BASE_URL = 'http://localhost:8081';
 
-// --- 테스트에 사용할 쿼리 (기존과 동일) ---
 const queryScenarios = [
     ['카드의정석 TEN'],
     ['트래블월렛 우리카드'],
@@ -48,7 +47,6 @@ const queryScenarios = [
     ['카드의정석 TEN', '잘못된카드이름'],
 ];
 
-// --- 테스트 시나리오 ---
 export default function () {
     group('API Endpoint: /api/cards (High-Concurrency)', function () {
         const randomQuery =
@@ -79,6 +77,6 @@ export default function () {
 // --- 테스트 결과 리포트 생성 ---
 export function handleSummary(data) {
     return {
-        'webflux-highest-load-report.html': htmlReport(data), // 결과 파일 이름을 다르게 지정
+        'webflux-highest-load-report.html': htmlReport(data),
     };
 }

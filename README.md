@@ -13,14 +13,16 @@ Spring MVC(Blocking I/O)와 Spring WebFlux(Non-blocking I/O)의 성능을 비교
 woori-card-recommendation-system/
 ├── ai/ # Python FastAPI AI 서버
 ├── server/
-│   ├── wooricard-recommend-server-webflux-refactor/# Spring WebFlux api 통합 gateway 서버(MongoDB) # PORT : 8082
+│   ├── wooricard-recommend-server-webflux-refactor/# Spring WebFlux 단일 gateway 서버(MongoDB) # PORT : 8082
 │   ├── wooricard-recommend-server-webflux/ # Spring WebFlux 서버 (MongoDB) # PORT : 8080
 │   ├── wooricard-recommend-server-mvc/ # Spring MVC 서버 (MySQL) # PORT : 8081
 │   └── db-data/ # 카드 데이터 입력 sql 파일(MySQL, MongoDB)
 │
 └── client/
-    └── wooricard-recommend-client/ # Next.js 프론트엔드 # PORT : 3000
-    └── wooricard-recommend-client-refactor/ # 통합api를 연결한 client
+│    └── wooricard-recommend-client/ # Next.js 프론트엔드 # PORT : 3000
+│    └── wooricard-recommend-client-refactor/ # 통합api를 연결한 client
+│
+└── tests/ # Grafana 테스팅
 ```
 
 ---
@@ -29,10 +31,10 @@ woori-card-recommendation-system/
 
 ---
 
--   **Next.js Client**: Chat-Bot 클라이언트. 백엔드 서버(MVC or WebFlux)는 api/route 파일에서, Port 변경으로로 선택 가능
--   **Spring MVC Backend**: 동기/블로킹 방식 서버 (RestTemplate + MySQL)
--   **Spring WebFlux Backend**: 비동기/논블로킹 방식 서버 (WebClient + Reactive MongoDB)
--   **FastAPI AI Server**: LangChain RAG 체인을 실행하는 AI 전문 서버
+-   **Next.js Client**: Chat-Bot 클라이언트. 백엔드 서버(MVC or WebFlux)는 api/route 파일에서, Port 변경으로 선택 가능
+-   **Spring MVC Backend**: 동기/블로킹 방식 서버
+-   **Spring WebFlux Backend**: 비동기/논블로킹 방식 서버
+-   **FastAPI AI Server**: AI 서버
 -   **Databases**: MySQL, MongoDB, Vector Store(FAISS)
 
 ---
@@ -53,7 +55,7 @@ woori-card-recommendation-system/
 -   **Embedding**: HuggingFace (jhgan/ko-sroberta-multitask)
 -   **Vector Store**: FAISS
 
-### Backend (wooricard-recommend-server-webflux)
+### Backend (wooricard-recommend-server-webflux/webflux-refactor)
 
 -   **Framework**: Spring Boot, Spring WebFlux
 -   **Language**: Java 17
@@ -104,7 +106,7 @@ uvicorn app.main:app --reload
 ### 2️⃣ 백엔드 서버 설정
 
 ```bash
-### (1) MVC 서버 (MySQL)
+(1) MVC 서버 (MySQL)
 
 IDE로 server/wooricard-recommend-server-webflux-mvc 프로젝트 열기
 
@@ -115,7 +117,7 @@ src/main/resources/application.yml 에 DB 연결 정보 설정
 
 애플리케이션 실행 (기본 포트: 8081)
 
-(2) WebFlux 서버 (MongoDB)
+(2) WebFlux-Refactor 서버 (MongoDB)
 
 IDE로 server/wooricard-recommend-server-webflux-refactor 프로젝트 열기
 
