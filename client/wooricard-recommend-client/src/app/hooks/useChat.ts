@@ -5,8 +5,8 @@ import type { Message, CardData } from '@/types/type';
 import { parseCardNames, cleanUpResponseText } from '@/lib/chat-utils';
 
 /**
- * 채팅 기능과 관련된 모든 상태와 로직을 관리하는 커스텀 훅입니다.
- * 메시지 목록, 로딩 상태, 메시지 전송 및 카드 정보 조회 기능을 포함합니다.
+ * 채팅 기능과 관련된 모든 상태와 로직을 관리하는 커스텀 훅
+ * 메시지 목록, 로딩 상태, 메시지 전송 및 카드 정보 조회 기능을 포함
  */
 export function useChat() {
     const [messages, setMessages] = useState<Message[]>([]);
@@ -16,7 +16,7 @@ export function useChat() {
 
     /**
      * 카드 이름 배열을 받아 API를 통해 상세 정보를 비동기적으로 조회하고,
-     * 해당 메시지의 상태를 업데이트하는 함수입니다.
+     * 해당 메시지의 상태를 업데이트하는 함수
      */
     const fetchCardDetails = useCallback(
         async (messageId: string, cardNames: string[]) => {
@@ -109,7 +109,6 @@ export function useChat() {
 
                     if (done) break;
 
-                    // [수정] 아래 로직을 더 안정적인 줄 단위 처리로 변경
                     buffer += decoder.decode(value, { stream: true });
                     const lines = buffer.split('\n'); // 줄 단위로 나눔
                     buffer = lines.pop() || ''; // 마지막 줄은 불완전할 수 있으므로 다시 버퍼에 저장
@@ -133,7 +132,6 @@ export function useChat() {
                     fullResponseText += buffer.substring(6);
                 }
 
-                // [디버깅] 전체 응답과 파싱 결과를 확인
                 console.log('Final fullResponseText:', fullResponseText);
                 const cardNames = parseCardNames(fullResponseText);
                 console.log('Parsed cardNames:', cardNames);

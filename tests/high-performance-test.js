@@ -6,14 +6,14 @@ import { check, group } from 'k6';
 export const options = {
     scenarios: {
         contacts: {
-            executor: 'ramping-vus', // 점진적으로 사용자를 늘리는 시나리오
+            executor: 'ramping-vus',
             startVUs: 0,
             stages: [
-                // 1단계: 30초 동안 가상 사용자를 200명까지 대폭 늘립니다.
+                // 1단계: 30초 동안 가상 사용자를 200명까지 대폭 늘림
                 { duration: '30s', target: 200 },
-                // 2단계: 200명의 사용자로 1분 동안 최대 부하를 유지합니다.
+                // 2단계: 200명의 사용자로 1분 동안 최대 부하를 유지
                 { duration: '1m', target: 200 },
-                // 3단계: 10초 동안 사용자를 0명으로 줄입니다.
+                // 3단계: 10초 동안 사용자를 0명으로 줄임
                 { duration: '10s', target: 0 },
             ],
             gracefulRampDown: '10s',
@@ -29,7 +29,6 @@ export const options = {
 
 const BASE_URL = 'http://localhost:8081';
 
-// --- 테스트에 사용할 쿼리 (기존과 동일) ---
 const queryScenarios = [
     ['카드의정석 TEN'],
     ['트래블월렛 우리카드'],
@@ -48,7 +47,6 @@ const queryScenarios = [
     ['카드의정석 TEN', '잘못된카드이름'],
 ];
 
-// --- 테스트 시나리오 ---
 export default function () {
     group('API Endpoint: /api/cards (High-Concurrency)', function () {
         const randomQuery =
@@ -79,6 +77,6 @@ export default function () {
 // --- 테스트 결과 리포트 생성 ---
 export function handleSummary(data) {
     return {
-        'webflux-high-load-report.html': htmlReport(data), // 결과 파일 이름을 다르게 지정
+        'webflux-high-load-report.html': htmlReport(data),
     };
 }
